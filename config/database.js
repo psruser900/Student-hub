@@ -333,6 +333,57 @@ const defaultSubjects = [
   }
 ];
 
+// The single authorized administrator/faculty account.
+// No other account is ever allowed to hold the 'admin' role - see
+// enforceSingleAdmin() below, which is applied both on fresh installs
+// and every time an existing database.json is loaded from disk.
+const AUTHORIZED_ADMIN_EMAIL = 'dhonikabilin@gmail.com';
+const AUTHORIZED_ADMIN_PASSWORD = 'Dhonik@2008';
+
+// Guarantees that:
+//  1. dhonikabilin@gmail.com exists, has role 'admin', and its password
+//     hash matches AUTHORIZED_ADMIN_PASSWORD.
+//  2. No other user account has the 'admin' role (any other admin account
+//     found - e.g. left over from an older database.json - is demoted to
+//     'student' rather than deleted, so no data is lost).
+function enforceSingleAdmin() {
+  let changed = false;
+
+  const adminHash = bcrypt.hashSync(AUTHORIZED_ADMIN_PASSWORD, 10);
+  let admin = dbData.users.find(u => u.email.toLowerCase() === AUTHORIZED_ADMIN_EMAIL);
+
+  if (!admin) {
+    admin = {
+      id: dbData.users.length > 0 ? Math.max(...dbData.users.map(u => u.id)) + 1 : 1,
+      name: "Administrator",
+      email: AUTHORIZED_ADMIN_EMAIL,
+      passwordHash: adminHash,
+      rollNo: "ADMIN001",
+      year: 1,
+      department: "Academic Office",
+      role: "admin",
+      createdAt: new Date().toISOString()
+    };
+    dbData.users.push(admin);
+    changed = true;
+  } else {
+    if (admin.role !== 'admin') { admin.role = 'admin'; changed = true; }
+    if (!bcrypt.compareSync(AUTHORIZED_ADMIN_PASSWORD, admin.passwordHash || '')) {
+      admin.passwordHash = adminHash;
+      changed = true;
+    }
+  }
+
+  for (const u of dbData.users) {
+    if (u.role === 'admin' && u.email.toLowerCase() !== AUTHORIZED_ADMIN_EMAIL) {
+      u.role = 'student';
+      changed = true;
+    }
+  }
+
+  return changed;
+}
+
 // Initialize and seed database
 function initDatabase() {
   if (fs.existsSync(DB_FILE)) {
@@ -340,6 +391,10 @@ function initDatabase() {
       const data = fs.readFileSync(DB_FILE, 'utf-8');
       dbData = JSON.parse(data);
       console.log('[DB] Loaded existing database from disk.');
+      if (enforceSingleAdmin()) {
+        saveDatabase();
+        console.log('[DB] Admin account reconciled to the authorized faculty account.');
+      }
       return;
     } catch (e) {
       console.warn('[DB] Failed to parse existing database file, re-initializing...', e);
@@ -349,21 +404,9 @@ function initDatabase() {
   console.log('[DB] Initializing new database with seed data...');
 
   // Default Admin & Student users
-  const adminPasswordHash = bcrypt.hashSync('Admin@123', 10);
   const studentPasswordHash = bcrypt.hashSync('Student@123', 10);
 
   dbData.users = [
-    {
-      id: 1,
-      name: "Admin Officer",
-      email: "admin@college.edu",
-      passwordHash: adminPasswordHash,
-      rollNo: "ADMIN001",
-      year: 1,
-      department: "Academic Office",
-      role: "admin",
-      createdAt: new Date().toISOString()
-    },
     {
       id: 2,
       name: "Alex Johnson",
@@ -376,6 +419,7 @@ function initDatabase() {
       createdAt: new Date().toISOString()
     }
   ];
+  enforceSingleAdmin();
 
   // Seed subjects, units, and sample PDFs
   let unitIdCounter = 1;
