@@ -51,8 +51,8 @@ function fillDemoStudent() {
 
 function fillDemoAdmin() {
   switchAuthTab('login');
-  document.getElementById('loginEmail').value = 'admin@college.edu';
-  document.getElementById('loginPassword').value = 'Admin@123';
+  document.getElementById('loginEmail').value = 'dhonikabilin@gmail.com';
+  document.getElementById('loginPassword').value = 'Dhonik@2008';
   showToast('Faculty Admin credentials loaded!', 'info');
 }
 
