@@ -64,8 +64,8 @@ async function runTests() {
     // 2. Test Admin Login
     console.log('2. Testing Admin Login...');
     const adminLoginRes = await makeRequest('/api/auth/login', 'POST', {
-      email: 'admin@college.edu',
-      password: 'Admin@123'
+      email: 'dhonikabilin@gmail.com',
+      password: 'Dhonik@2008'
     });
     if (adminLoginRes.status !== 200 || !adminLoginRes.body.token) {
       throw new Error(`Admin login failed: ${JSON.stringify(adminLoginRes.body)}`);

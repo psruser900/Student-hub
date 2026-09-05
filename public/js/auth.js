@@ -49,10 +49,6 @@ function fillDemoStudent() {
   showToast('Demo Student credentials loaded!', 'info');
 }
 
-// Restricted admin/faculty account - only this exact login is granted admin access
-const ADMIN_EMAIL = 'dhonikabilin@gmail.com';
-const ADMIN_PASSWORD = 'Dhonik@2008';
-
 // Handle Login Submission
 async function handleLogin(event) {
   event.preventDefault();
@@ -62,23 +58,6 @@ async function handleLogin(event) {
 
   submitBtn.disabled = true;
   submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Signing in...`;
-
-  // Only this exact email/password combination is granted admin access
-  if (email.toLowerCase() === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-    const adminToken = 'admin-session-' + Date.now();
-    localStorage.setItem('student_token', adminToken);
-    localStorage.setItem('student_user', JSON.stringify({
-      name: 'Administrator',
-      email: ADMIN_EMAIL,
-      role: 'admin'
-    }));
-
-    showToast('Login successful! Redirecting...', 'success');
-    setTimeout(() => {
-      window.location.href = '/admin.html';
-    }, 700);
-    return;
-  }
 
   try {
     const res = await fetch('/api/auth/login', {
@@ -96,12 +75,6 @@ async function handleLogin(event) {
 
     if (!res.ok) {
       throw new Error(data.message || 'Login failed. Please check credentials.');
-    }
-
-    // Safety net: never let any other account be treated as admin, even if a
-    // backend response says otherwise. Only the fixed admin login above grants it.
-    if (data.user.role === 'admin' && email.toLowerCase() !== ADMIN_EMAIL) {
-      data.user.role = 'student';
     }
 
     localStorage.setItem('student_token', data.token);

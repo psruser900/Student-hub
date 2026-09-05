@@ -108,7 +108,7 @@ if (require.main === module) {
     console.log(`📡 Local URL:    http://localhost:${PORT}`);
     console.log(`📚 Year 1:       1st Sem & 2nd Sem Subjects Seeded`);
     console.log(`👤 Student Login: student@college.edu / Student@123`);
-    console.log(`👑 Admin Login:   admin@college.edu / Admin@123`);
+    console.log(`👑 Admin Login:   dhonikabilin@gmail.com / Dhonik@2008`);
     console.log(`====================================================`);
   });
 }

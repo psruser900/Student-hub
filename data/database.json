@@ -2,9 +2,9 @@
   "users": [
     {
       "id": 1,
-      "name": "Admin Officer",
-      "email": "admin@college.edu",
-      "passwordHash": "$2a$10$eamE3UXtly9qDxLj3ltseO3ED5n93ZFaWKFGjxuwFSSENz7cfc3jq",
+      "name": "Administrator",
+      "email": "dhonikabilin@gmail.com",
+      "passwordHash": "$2a$10$4HA.oHw4rx3MWBP8Q/hoRu20Dta7db6gc6hgQVFv6DX.2wqzPsGN2",
       "rollNo": "ADMIN001",
       "year": 1,
       "department": "Academic Office",

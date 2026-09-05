@@ -62,12 +62,14 @@ Visit: **[http://localhost:3000](http://localhost:3000)**
 
 ## 🔑 Pre-Seeded Demo Accounts
 
-You can log in immediately using the one-click demo buttons on the login page or with the following credentials:
+You can log in immediately using the one-click demo button on the login page (student) or with the following credentials:
 
 | Role | Email | Password |
 |---|---|---|
 | **Student** | `student@college.edu` | `Student@123` |
-| **Faculty / Admin** | `admin@college.edu` | `Admin@123` |
+| **Faculty / Admin** | `dhonikabilin@gmail.com` | `Dhonik@2008` |
+
+Faculty/Admin access is restricted to this single account only — no demo button is shown for it, and the server will not grant the `admin` role to any other account.
 
 *(You can also register a new student account at any time using the "Register" tab!)*
 
