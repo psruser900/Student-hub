@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Academic Notes & PDF Viewer</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/dashboard" class="nav-brand">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>StudentHub</span>
+      </a>
+
+      <!-- Realtime Search Bar -->
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input 
+          type="text" 
+          id="globalSearchInput" 
+          class="search-input" 
+          placeholder="Search subjects, units, formulas, notes..."
+          oninput="handleSearchInput(event)"
+        >
+      </div>
+
+      <!-- User & Quick Nav -->
+      <div class="nav-actions">
+        <!-- Bookmark quick drawer toggle -->
+        <button class="btn btn-secondary btn-sm" onclick="showBookmarksView()" title="View Starred Notes">
+          <i class="fa-solid fa-star text-accent" style="color: var(--accent);"></i>
+          <span id="bookmarkCountBadge">Saved (0)</span>
+        </button>
+
+        <!-- Admin link (shown dynamically if user.role === 'admin') -->
+        <a href="/admin" id="adminPortalLink" class="btn btn-secondary btn-sm" style="display: none;">
+          <i class="fa-solid fa-user-shield"></i> Admin
+        </a>
+
+        <!-- Student Profile Pill -->
+        <div class="user-badge" id="userBadge">
+          <div class="user-avatar" id="userAvatar">S</div>
+          <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.2;">
+            <span id="userNameDisplay" style="font-size: 0.85rem; font-weight: 700;">Student</span>
+            <span id="userRollDisplay" style="font-size: 0.72rem; color: var(--text-muted);">Year 1</span>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary btn-icon" onclick="handleLogout()" title="Logout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Academic Level Selector Bar -->
+  <section class="academic-filter-bar">
+    <div class="filter-container">
+      <!-- 1. Academic Year Tabs -->
+      <div class="filter-row">
+        <span class="filter-label"><i class="fa-solid fa-calendar-days"></i> Year:</span>
+        <div class="tab-pills" id="yearPillsContainer">
+          <button class="pill-btn active" data-year="1" onclick="selectYear(1)">1st Year</button>
+          <button class="pill-btn" data-year="2" onclick="selectYear(2)">2nd Year</button>
+          <button class="pill-btn" data-year="3" onclick="selectYear(3)">3rd Year</button>
+          <button class="pill-btn" data-year="4" onclick="selectYear(4)">4th Year</button>
+        </div>
+      </div>
+
+      <!-- 2. Semester Filter Pills -->
+      <div class="filter-row">
+        <span class="filter-label"><i class="fa-solid fa-layer-group"></i> Semester:</span>
+        <div class="tab-pills" id="semesterPillsContainer">
+          <!-- Populated dynamically: Semester 1, Semester 2, etc. -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Portal Body -->
+  <main class="main-content">
+
+    <!-- Search Results Notification Banner (Hidden by default) -->
+    <div id="searchResultsBanner" style="display: none; background: #e0f2fe; border: 1px solid #7dd3fc; padding: 0.75rem 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; justify-content: space-between; align-items: center;">
+      <div>
+        <i class="fa-solid fa-filter text-primary"></i>
+        <span id="searchResultText" style="font-weight: 600; margin-left: 0.5rem;">Showing search results</span>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="clearSearch()"><i class="fa-solid fa-xmark"></i> Clear</button>
+    </div>
+
+    <!-- Section 1: Subjects Grid Header -->
+    <div class="section-header" id="subjectsSectionHeader">
+      <div>
+        <h2 class="section-title">
+          <i class="fa-solid fa-book text-primary"></i>
+          <span id="currentSemesterTitle">1st Year &bull; Semester 1 Subjects</span>
+        </h2>
+        <p class="text-muted" style="font-size: 0.88rem; margin-top: 0.2rem;">
+          Click on any subject below to inspect its 5 units and access the PDF notes.
+        </p>
+      </div>
+      <div id="subjectsCountBadge" class="badge badge-primary">
+        5 Subjects Available
+      </div>
+    </div>
+
+    <!-- Subjects Grid -->
+    <div class="subjects-grid" id="subjectsGrid">
+      <!-- Dynamically populated subject cards -->
+    </div>
+
+    <!-- Section 2: Selected Subject & Unit-wise PDF Breakdown -->
+    <div class="units-container" id="unitDetailSection" style="display: none;">
+      <div class="units-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.35rem;">
+            <span class="subject-code" id="activeSubjectCode">MATH101</span>
+            <span class="badge badge-secondary" id="activeSubjectCredits">4 Credits</span>
+          </div>
+          <h2 id="activeSubjectTitle" style="font-size: 1.5rem; color: var(--dark);">Engineering Mathematics I</h2>
+          <p id="activeSubjectDesc" class="text-muted" style="font-size: 0.9rem; margin-top: 0.25rem; max-width: 800px;"></p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="scrollToTop()">
+          <i class="fa-solid fa-arrow-up"></i> Back to Subjects
+        </button>
+      </div>
+
+      <div style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+        <h3 style="font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-folder-tree" style="color: var(--primary);"></i>
+          <span>Unit-Wise Study Material & PDF Notes (Units 1 to 5)</span>
+        </h3>
+        <span class="badge badge-success"><i class="fa-solid fa-shield-halved"></i> Verified Academic Notes</span>
+      </div>
+
+      <!-- Unit Cards List -->
+      <div id="unitsList">
+        <!-- Dynamically rendered Unit 1 to Unit 5 with PDF cards -->
+      </div>
+    </div>
+
+    <!-- Bookmarks View (Modal / View) -->
+    <div id="bookmarksSection" style="display: none;" class="units-container">
+      <div class="units-header">
+        <div>
+          <h2 style="font-size: 1.5rem;"><i class="fa-solid fa-star text-accent" style="color: var(--accent);"></i> Starred Exam Revision Notes</h2>
+          <p class="text-muted" style="font-size: 0.9rem;">Quickly review the units and notes you saved for your upcoming tests.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="hideBookmarksView()">
+          <i class="fa-solid fa-arrow-left"></i> Back to All Subjects
+        </button>
+      </div>
+      <div id="bookmarksList">
+        <!-- Rendered bookmarks -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- PDF Viewer Modal -->
+  <div class="modal-overlay" id="pdfModalOverlay">
+    <div class="pdf-modal-container">
+      <div class="pdf-modal-header">
+        <div style="display: flex; align-items: center; gap: 0.75rem; min-width: 0;">
+          <i class="fa-solid fa-file-pdf" style="color: #ef4444; font-size: 1.3rem;"></i>
+          <span class="pdf-modal-title" id="modalPdfTitle">Document Preview</span>
+        </div>
+        <div class="pdf-modal-actions">
+          <a href="#" id="modalOpenExternalBtn" target="_blank" class="btn btn-secondary btn-sm" style="color: #fff; background: rgba(255,255,255,0.15); border: none;">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> New Tab
+          </a>
+          <a href="#" id="modalDownloadBtn" class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-download"></i> Download PDF
+          </a>
+          <button class="btn btn-secondary btn-icon" style="color: #fff; background: rgba(255,255,255,0.15); border: none;" onclick="closePdfModal()" title="Close Viewer">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <div class="pdf-modal-body">
+        <iframe id="pdfFrame" class="pdf-iframe" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 StudentHub &bull; Unit-Wise Engineering Study Portal</p>
+  </footer>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

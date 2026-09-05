@@ -1,0 +1,181 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin Officer",
+      "email": "admin@college.edu",
+      "passwordHash": "$2a$10$eamE3UXtly9qDxLj3ltseO3ED5n93ZFaWKFGjxuwFSSENz7cfc3jq",
+      "rollNo": "ADMIN001",
+      "year": 1,
+      "department": "Academic Office",
+      "role": "admin",
+      "createdAt": "2026-09-05T12:28:11.500Z"
+    },
+    {
+      "id": 2,
+      "name": "Alex Johnson",
+      "email": "student@college.edu",
+      "passwordHash": "$2a$10$Qw5XLjekd1XJBZ1k9TgPDu.BKWyzem5OhQic2QXxs2uAekaIcFbQW",
+      "rollNo": "CS2026-042",
+      "year": 1,
+      "department": "Computer Science & Engineering",
+      "role": "student",
+      "createdAt": "2026-09-05T12:28:11.501Z"
+    }
+  ],
+  "years": [
+    {
+      "id": 1,
+      "name": "1st Year",
+      "description": "Freshman Year - Foundational Engineering & Sciences"
+    },
+    {
+      "id": 2,
+      "name": "2nd Year",
+      "description": "Sophomore Year - Core Department Engineering"
+    },
+    {
+      "id": 3,
+      "name": "3rd Year",
+      "description": "Junior Year - Advanced Specialization & Labs"
+    },
+    {
+      "id": 4,
+      "name": "4th Year",
+      "description": "Senior Year - Electives & Capstone Projects"
+    }
+  ],
+  "semesters": [
+    {
+      "id": 1,
+      "yearId": 1,
+      "name": "Semester 1",
+      "code": "SEM-1"
+    },
+    {
+      "id": 2,
+      "yearId": 1,
+      "name": "Semester 2",
+      "code": "SEM-2"
+    },
+    {
+      "id": 3,
+      "yearId": 2,
+      "name": "Semester 3",
+      "code": "SEM-3"
+    },
+    {
+      "id": 4,
+      "yearId": 2,
+      "name": "Semester 4",
+      "code": "SEM-4"
+    },
+    {
+      "id": 5,
+      "yearId": 3,
+      "name": "Semester 5",
+      "code": "SEM-5"
+    },
+    {
+      "id": 6,
+      "yearId": 3,
+      "name": "Semester 6",
+      "code": "SEM-6"
+    },
+    {
+      "id": 7,
+      "yearId": 4,
+      "name": "Semester 7",
+      "code": "SEM-7"
+    },
+    {
+      "id": 8,
+      "yearId": 4,
+      "name": "Semester 8",
+      "code": "SEM-8"
+    }
+  ],
+  "subjects": [
+    {
+      "id": 11,
+      "yearId": 1,
+      "semesterId": 1,
+      "code": "PH26C02",
+      "name": "Physics for computer engineer's",
+      "description": "",
+      "icon": "fa-book",
+      "credits": 5
+    }
+  ],
+  "units": [
+    {
+      "id": 51,
+      "subjectId": 11,
+      "unitNumber": 1,
+      "unitTitle": "Unit 1: Conducting Materials",
+      "topics": "Curriculum topics and examination reference material for Unit 1."
+    },
+    {
+      "id": 52,
+      "subjectId": 11,
+      "unitNumber": 2,
+      "unitTitle": "Unit 2: Core Principles & Syllabus",
+      "topics": "Curriculum topics and examination reference material for Unit 2."
+    },
+    {
+      "id": 53,
+      "subjectId": 11,
+      "unitNumber": 3,
+      "unitTitle": "Unit 3: Core Principles & Syllabus",
+      "topics": "Curriculum topics and examination reference material for Unit 3."
+    },
+    {
+      "id": 54,
+      "subjectId": 11,
+      "unitNumber": 4,
+      "unitTitle": "Unit 4: Core Principles & Syllabus",
+      "topics": "Curriculum topics and examination reference material for Unit 4."
+    },
+    {
+      "id": 55,
+      "subjectId": 11,
+      "unitNumber": 5,
+      "unitTitle": "Unit 5: Core Principles & Syllabus",
+      "topics": "Curriculum topics and examination reference material for Unit 5."
+    }
+  ],
+  "notes": [
+    {
+      "id": 51,
+      "unitId": 51,
+      "title": "Conducting Materials",
+      "description": "Unit 1 study material and notes.",
+      "fileName": "1788615162005-9412-Unit-I-Conducting_materials.pdf",
+      "fileSize": "1.06 MB",
+      "uploadedBy": "Admin Officer",
+      "downloadsCount": 0,
+      "viewsCount": 2,
+      "createdAt": "2026-09-05T13:32:42.023Z"
+    },
+    {
+      "id": 52,
+      "unitId": 51,
+      "title": "Conducting Materials",
+      "description": "Unit 1 study material and notes.",
+      "fileName": "1788615214250-9696-Unit_I_New_watsapp.pdf",
+      "fileSize": "792.7 KB",
+      "uploadedBy": "Admin Officer",
+      "downloadsCount": 0,
+      "viewsCount": 0,
+      "createdAt": "2026-09-05T13:33:34.267Z"
+    }
+  ],
+  "bookmarks": [
+    {
+      "id": 1,
+      "userId": 2,
+      "noteId": 1,
+      "createdAt": "2026-09-05T12:29:29.775Z"
+    }
+  ]
+}

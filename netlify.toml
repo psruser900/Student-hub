@@ -1,0 +1,12 @@
+[build]
+  publish = "public"
+  command = "npm run build || echo 'Static files ready in public/'"
+
+# Note on Netlify:
+# Netlify is primarily for static sites. To run the full dynamic Node.js backend
+# with PDF streaming & user auth, deploying via Render.com (free) or Vercel is recommended.
+# If hosting the frontend on Netlify, redirect API calls to your Render backend URL below:
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://your-student-hub.onrender.com/api/:splat"
+#   status = 200

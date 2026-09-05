@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Hub - College Academic Notes Portal</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Simple Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>StudentHub</span>
+      </a>
+      <div class="nav-actions">
+        <span class="badge badge-primary"><i class="fa-solid fa-book-open"></i> Engineering & College Notes</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="hero-banner">
+    <div class="hero-content">
+      <span class="badge badge-warning" style="margin-bottom: 0.85rem;"><i class="fa-solid fa-sparkles"></i> 2026 Academic Curriculum</span>
+      <h1 class="hero-title">Your Complete College Notes Portal</h1>
+      <p class="hero-subtitle">
+        Access comprehensive, unit-wise PDF lecture notes, formulas, and syllabus for 1st Year (Semester 1 & 2) and beyond. Built for focused studying and exam excellence.
+      </p>
+    </div>
+  </section>
+
+  <!-- Auth Card Container -->
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-brand">
+          <i class="fa-solid fa-book-bookmark text-primary"></i>
+          <span>Welcome Back</span>
+        </div>
+        <p class="text-muted" style="font-size: 0.88rem;">Login or create an account to access all subject notes</p>
+      </div>
+
+      <!-- Auth Toggle Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">
+          <i class="fa-solid fa-right-to-bracket"></i> Login
+        </button>
+        <button class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')">
+          <i class="fa-solid fa-user-plus"></i> Register
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">College Email or Username</label>
+          <div style="position: relative;">
+            <input type="email" id="loginEmail" class="form-control" placeholder="student@college.edu" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" id="loginSubmitBtn">
+          <span>Sign In to Student Hub</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <!-- Registration Form (Initially Hidden) -->
+      <form id="registerForm" style="display: none;" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label class="form-label" for="regName">Full Name</label>
+          <input type="text" id="regName" class="form-control" placeholder="e.g. Alex Johnson" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regRollNo">Roll No / Student ID</label>
+          <input type="text" id="regRollNo" class="form-control" placeholder="e.g. CS2026-042" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regEmail">College Email</label>
+          <input type="email" id="regEmail" class="form-control" placeholder="alex@college.edu" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div class="form-group">
+            <label class="form-label" for="regYear">Academic Year</label>
+            <select id="regYear" class="form-control" required>
+              <option value="1">1st Year</option>
+              <option value="2">2nd Year</option>
+              <option value="3">3rd Year</option>
+              <option value="4">4th Year</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regDept">Branch / Dept</label>
+            <input type="text" id="regDept" class="form-control" placeholder="e.g. CSE / ECE" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regPassword">Create Password</label>
+          <input type="password" id="regPassword" class="form-control" placeholder="Minimum 6 characters" minlength="6" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" id="regSubmitBtn">
+          <span>Create Student Account</span>
+          <i class="fa-solid fa-check"></i>
+        </button>
+      </form>
+
+      <!-- Quick Demo Access Box -->
+      <div class="quick-demo-box">
+        <div style="font-weight: 700; margin-bottom: 0.4rem; color: var(--dark);">
+          <i class="fa-solid fa-key" style="color: var(--accent);"></i> Quick One-Click Demo Access:
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemoStudent()">
+            <i class="fa-solid fa-user-graduate"></i> Demo Student
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemoAdmin()">
+            <i class="fa-solid fa-user-shield"></i> Faculty Admin
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 StudentHub &bull; College Notes & Academic PDF Repository</p>
+  </footer>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>
