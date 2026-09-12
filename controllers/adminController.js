@@ -47,7 +47,8 @@ function uploadNote(req, res) {
       unitId: Number(unitId),
       title: title.trim(),
       description: (description || `Unit ${unit.unitNumber} study material and notes.`).trim(),
-      fileName: file.filename,
+      fileName: file.originalname,
+      fileUrl: file.path, // Cloudinary permanent URL
       fileSize: fileSizeFormatted,
       uploadedBy: req.user ? req.user.name : 'Faculty Administrator'
     });
@@ -245,7 +246,7 @@ function updateNoteAndUnit(req, res) {
       // Remove old file if it exists and is different
       const oldFilePath = path.join(UPLOADS_DIR, note.fileName);
       if (fs.existsSync(oldFilePath) && note.fileName !== file.filename) {
-        try { fs.unlinkSync(oldFilePath); } catch (e) {}
+        try { fs.unlinkSync(oldFilePath); } catch (e) { }
       }
 
       updateData.fileName = file.filename;
